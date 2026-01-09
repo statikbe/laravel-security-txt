@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Statik\LaravelSecurityTxt\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelSecurityTxtCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-security-txt';
 
     public $description = 'My command';
 
