@@ -21,8 +21,8 @@ A Laravel package to manage [security.txt](https://securitytxt.org/) files with 
 ```bash
 php artisan security-txt:update
 php artisan security-txt:update --expires-days=30
-
 ```
+
 ### Configuration
 
 ```php
@@ -32,8 +32,8 @@ php artisan security-txt:update --expires-days=30
 'output_path' => storage_path('security.txt'),
 'placeholders' => [],
 'middleware' => ['web'],
-
 ```
+
 ### Requirements
 
 - PHP 8.2+
@@ -44,16 +44,4 @@ php artisan security-txt:update --expires-days=30
 ```bash
 composer require statikbe/laravel-security-txt
 php artisan vendor:publish --tag="security-txt-config"
-
 ```
-## 1.0.0 - 2025-01-26
-
-- Initial release
-- Fetch security.txt template from configurable remote URL
-- Replace placeholders with dynamic values (strings or callables)
-- Auto-calculate Expires field in ISO 8601 format
-- Serve file at `/.well-known/security.txt`
-- RFC 9116 validation (Contact and Expires fields required)
-- Graceful error handling with logging
-- Configurable expiration days
-- `security-txt:update` Artisan command with `--expires-days` option
