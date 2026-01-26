@@ -2,36 +2,52 @@
 
 namespace Statik\LaravelSecurityTxt\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Statik\LaravelSecurityTxt\LaravelSecurityTxtServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Statik\\LaravelSecurityTxt\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
-    }
-
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             LaravelSecurityTxtServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app): void
     {
-        config()->set('database.default', 'testing');
+        $app['config']->set('security-txt.output_path', $this->getTempPath());
+        $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
+    }
 
-        /*
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/../database/migrations') as $migration) {
-            (include $migration->getRealPath())->up();
-         }
-         */
+    protected function getTempPath(): string
+    {
+        return sys_get_temp_dir().'/security-txt-test/security.txt';
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $dir = dirname($this->getTempPath());
+        if (! is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        $path = $this->getTempPath();
+        $dir = dirname($path);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        if (is_dir($dir)) {
+            @rmdir($dir);
+        }
+
+        parent::tearDown();
     }
 }

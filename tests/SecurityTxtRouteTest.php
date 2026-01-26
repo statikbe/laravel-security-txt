@@ -1,0 +1,28 @@
+<?php
+
+it('returns security.txt content when file exists', function () {
+    $content = "Contact: mailto:security@example.com\nExpires: 2025-12-31T23:59:59+00:00";
+    file_put_contents(config('security-txt.output_path'), $content);
+
+    $this->get('/.well-known/security.txt')
+        ->assertStatus(200)
+        ->assertHeader('Content-Type', 'text/plain; charset=utf-8')
+        ->assertSee('Contact: mailto:security@example.com')
+        ->assertSee('Expires: 2025-12-31T23:59:59+00:00');
+});
+
+it('returns 404 when file does not exist', function () {
+    @unlink(config('security-txt.output_path'));
+
+    $this->get('/.well-known/security.txt')
+        ->assertStatus(404);
+});
+
+it('does not register route when disabled', function () {
+    config()->set('security-txt.enabled', false);
+    $this->refreshApplication();
+    config()->set('security-txt.enabled', false);
+
+    $this->get('/.well-known/security.txt')
+        ->assertStatus(404);
+});
