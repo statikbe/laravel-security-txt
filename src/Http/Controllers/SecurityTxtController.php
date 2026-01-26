@@ -13,7 +13,9 @@ class SecurityTxtController
 
         abort_unless(File::exists($path), 404);
 
-        return response(File::get($path), 200, [
+        $content = preg_replace('/^\s*#.*$\n?/m', '', File::get($path));
+
+        return response(trim($content), 200, [
             'Content-Type' => 'text/plain; charset=utf-8',
         ]);
     }
