@@ -1,6 +1,6 @@
 {
     "name": "statikbe/laravel-security-txt",
-    "description": "This is my package laravel-security-txt",
+    "description": "A Laravel package to manage security.txt files with automatic updates and configurable expiration",
     "keywords": [
         "Statik.be",
         "laravel",
@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.2",
         "spatie/laravel-package-tools": "^1.16",
         "illuminate/contracts": "^11.0||^12.0"
     },
@@ -34,8 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Statik\\LaravelSecurityTxt\\": "src/",
-            "Statik\\LaravelSecurityTxt\\Database\\Factories\\": "database/factories/"
+            "Statik\\LaravelSecurityTxt\\": "src/"
         }
     },
     "autoload-dev": {
@@ -63,10 +62,7 @@
         "laravel": {
             "providers": [
                 "Statik\\LaravelSecurityTxt\\LaravelSecurityTxtServiceProvider"
-            ],
-            "aliases": {
-                "LaravelSecurityTxt": "Statik\\LaravelSecurityTxt\\Facades\\LaravelSecurityTxt"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",
