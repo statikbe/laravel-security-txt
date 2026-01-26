@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-security-txt` will be documented in this file.
 
+## v1.0.1 - 2026-01-26
+
+### What's Changed
+
+#### Bug Fixes
+
+- **PHP 8.2 compatibility** - Allow Pest 3.x alongside Pest 4.x since Pest 4.x requires PHP 8.3+
+
+#### Chores
+
+- Add relevant keywords to composer.json for better discoverability
+- Fix duplicate changelog entry
+
+**Full Changelog**: https://github.com/statikbe/laravel-security-txt/compare/v1.0.0...v1.0.1
+
 ## v1.0.0 - Initial Release - 2026-01-26
 
 A Laravel package to manage [security.txt](https://securitytxt.org/) files with automatic updates and configurable expiration.
@@ -21,8 +36,8 @@ A Laravel package to manage [security.txt](https://securitytxt.org/) files with 
 ```bash
 php artisan security-txt:update
 php artisan security-txt:update --expires-days=30
-```
 
+```
 ### Configuration
 
 ```php
@@ -32,8 +47,8 @@ php artisan security-txt:update --expires-days=30
 'output_path' => storage_path('security.txt'),
 'placeholders' => [],
 'middleware' => ['web'],
-```
 
+```
 ### Requirements
 
 - PHP 8.2+
@@ -44,4 +59,5 @@ php artisan security-txt:update --expires-days=30
 ```bash
 composer require statikbe/laravel-security-txt
 php artisan vendor:publish --tag="security-txt-config"
+
 ```
