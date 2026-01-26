@@ -33,21 +33,18 @@ class TestCase extends Orchestra
         if (! is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
-    }
 
-    protected function tearDown(): void
-    {
-        $path = $this->getTempPath();
-        $dir = dirname($path);
+        $this->beforeApplicationDestroyed(function () {
+            $path = $this->getTempPath();
+            $dir = dirname($path);
 
-        if (file_exists($path)) {
-            unlink($path);
-        }
+            if (file_exists($path)) {
+                @unlink($path);
+            }
 
-        if (is_dir($dir)) {
-            @rmdir($dir);
-        }
-
-        parent::tearDown();
+            if (is_dir($dir)) {
+                @rmdir($dir);
+            }
+        });
     }
 }
