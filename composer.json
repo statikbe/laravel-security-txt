@@ -2,9 +2,13 @@
     "name": "statikbe/laravel-security-txt",
     "description": "A Laravel package to manage security.txt files with automatic updates and configurable expiration",
     "keywords": [
-        "Statik.be",
         "laravel",
-        "laravel-security-txt"
+        "security",
+        "security-txt",
+        "well-known",
+        "rfc9116",
+        "vulnerability-disclosure",
+        "responsible-disclosure"
     ],
     "homepage": "https://github.com/statikbe/laravel-security-txt",
     "license": "MIT",
