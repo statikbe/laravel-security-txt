@@ -1,60 +1,149 @@
-# This is my package laravel-security-txt
+# Laravel Security.txt
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/statikbe/laravel-security-txt.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-security-txt)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-security-txt/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/statikbe/laravel-security-txt/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-security-txt/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/statikbe/laravel-security-txt/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/statikbe/laravel-security-txt.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-security-txt)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-security-txt.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-security-txt)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+A Laravel package to manage [security.txt](https://securitytxt.org/) files with automatic updates and configurable expiration. Fetches a template from a remote URL, replaces placeholders with dynamic values, and serves the file at `/.well-known/security.txt`.
 
 ## Installation
 
-You can install the package via composer:
+Install the package via Composer:
 
 ```bash
 composer require statikbe/laravel-security-txt
 ```
 
-You can publish and run the migrations with:
+Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --tag="laravel-security-txt-migrations"
-php artisan migrate
+php artisan vendor:publish --tag="security-txt-config"
 ```
 
-You can publish the config file with:
+## Configuration
 
-```bash
-php artisan vendor:publish --tag="laravel-security-txt-config"
-```
-
-This is the contents of the published config file:
+The published configuration file (`config/security-txt.php`) contains the following options:
 
 ```php
 return [
+    // Enable/disable the /.well-known/security.txt route
+    'enabled' => env('SECURITY_TXT_ENABLED', true),
+
+    // Remote URL to fetch the template from
+    'template_url' => env('SECURITY_TXT_TEMPLATE_URL'),
+
+    // Days until expiration (default: 365)
+    'expires_days' => env('SECURITY_TXT_EXPIRES_DAYS', 365),
+
+    // Where to store the generated file
+    'output_path' => storage_path('security.txt'),
+
+    // Placeholder mappings
+    'placeholders' => [
+        'CONTACT_EMAIL' => 'security@example.com',
+        'PGP_KEY_URL' => fn() => config('app.url') . '/pgp-key.txt',
+    ],
+
+    // Middleware for the route
+    'middleware' => ['web'],
 ];
 ```
 
-Optionally, you can publish the views using
+### Environment Variables
 
-```bash
-php artisan vendor:publish --tag="laravel-security-txt-views"
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `SECURITY_TXT_ENABLED` | Enable/disable the route | `true` |
+| `SECURITY_TXT_TEMPLATE_URL` | URL to fetch template from | `null` |
+| `SECURITY_TXT_EXPIRES_DAYS` | Days until expiration | `365` |
+
+## Template Setup
+
+Create a `security.txt` template file and host it somewhere accessible (e.g., GitHub raw file, internal server). Use `{{PLACEHOLDER_NAME}}` syntax for dynamic values.
+
+### Example Template
+
+```text
+Contact: mailto:{{CONTACT_EMAIL}}
+Expires: {{EXPIRES}}
+Encryption: {{PGP_KEY_URL}}
+Preferred-Languages: en
+```
+
+Host this file and set the URL in your published configuration file.
+
+An example template is included in the package at `stubs/security.txt.template`.
+
+## Placeholders
+
+### Built-in Placeholders
+
+| Placeholder   | Description                                        |
+|---------------|----------------------------------------------------|
+| `{{EXPIRES}}` | Auto-calculated expiration date in ISO 8601 format |
+
+### Custom Placeholders
+
+Define custom placeholders in the config file. Values can be strings or callables:
+
+```php
+'placeholders' => [
+    'CONTACT_EMAIL' => 'security@example.com',
+    'PGP_KEY_URL' => fn() => config('app.url') . '/pgp-key.txt',
+    'CANONICAL_URL' => fn() => config('app.url') . '/.well-known/security.txt',
+],
 ```
 
 ## Usage
 
-```php
-$laravelSecurityTxt = new Statik\LaravelSecurityTxt();
-echo $laravelSecurityTxt->echoPhrase('Hello, Statik!');
+### Generating the File
+
+Run the Artisan command to fetch the template and generate the security.txt file:
+
+```bash
+php artisan security-txt:update
 ```
+
+Override the expiration days:
+
+```bash
+php artisan security-txt:update --expires-days=30
+```
+
+### Scheduling Updates
+
+Add the command to your `routes/console.php` to keep the file updated:
+
+```php
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('security-txt:update')->weekly();
+```
+
+### Accessing the File
+
+Once generated, the file is served at:
+
+```
+https://your-domain.com/.well-known/security.txt
+```
+
+## Validation
+
+The package validates generated files against [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116) requirements:
+
+- **Contact** field is required
+- **Expires** field is required
+
+If validation fails, the file will not be written and an error will be logged.
+
+## Error Handling
+
+The command handles errors gracefully:
+
+- If the template URL is unreachable, an error is logged and the existing file (if any) is preserved
+- If validation fails, errors are displayed and the file is not written
+- All errors are logged via Laravel's logging system
 
 ## Testing
 
