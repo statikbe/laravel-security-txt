@@ -1,0 +1,16 @@
+# Security Policy
+# This file provides security researchers with information about how to report
+# vulnerabilities in our systems.
+#
+# For more information about security.txt, see https://securitytxt.org/
+
+Contact: mailto:{{CONTACT_EMAIL}}
+Expires: {{EXPIRES}}
+
+# Optional fields - uncomment and configure as needed:
+# Encryption: {{PGP_KEY_URL}}
+# Acknowledgments: {{ACKNOWLEDGMENTS_URL}}
+# Preferred-Languages: en
+# Canonical: {{CANONICAL_URL}}
+# Policy: {{POLICY_URL}}
+# Hiring: {{HIRING_URL}}
