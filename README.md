@@ -1,7 +1,8 @@
-# Laravel Security.txt
+# Laravel security.txt
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/statikbe/laravel-security-txt.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-security-txt)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-security-txt/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/statikbe/laravel-security-txt/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-security-txt/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/statikbe/laravel-security-txt/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/statikbe/laravel-security-txt.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-security-txt)
 
 A Laravel package to manage [security.txt](https://securitytxt.org/) files with automatic updates and configurable expiration. Fetches a template from a remote URL, replaces placeholders with dynamic values, and serves the file at `/.well-known/security.txt`.
@@ -89,8 +90,8 @@ Define custom placeholders in the config file. Values can be strings or callable
 ```php
 'placeholders' => [
     'CONTACT_EMAIL' => 'security@example.com',
-    'PGP_KEY_URL' => fn() => config('app.url') . '/pgp-key.txt',
-    'CANONICAL_URL' => fn() => config('app.url') . '/.well-known/security.txt',
+    'PGP_KEY_URL' => fn () => config('app.url') . '/pgp-key.txt',
+    'CANONICAL_URL' => fn () => config('app.url') . '/.well-known/security.txt',
 ],
 ```
 
