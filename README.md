@@ -51,11 +51,11 @@ return [
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `SECURITY_TXT_ENABLED` | Enable/disable the route | `true` |
-| `SECURITY_TXT_TEMPLATE_URL` | URL to fetch template from | `null` |
-| `SECURITY_TXT_EXPIRES_DAYS` | Days until expiration | `365` |
+| Variable                    | Description                | Default |
+|-----------------------------|----------------------------|---------|
+| `SECURITY_TXT_ENABLED`      | Enable/disable the route   | `true`  |
+| `SECURITY_TXT_TEMPLATE_URL` | URL to fetch template from | `null`  |
+| `SECURITY_TXT_EXPIRES_DAYS` | Days until expiration      | `365`   |
 
 ## Template Setup
 
@@ -155,18 +155,9 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
 ## Credits
 
 - [Aurel Demiri](https://github.com/AurelDemiri)
-- [All Contributors](../../contributors)
 
 ## License
 
