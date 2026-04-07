@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-security-txt` will be documented in this file.
 
+## v1.1.0 - 2026-04-07
+
+### What's Changed
+
+* feat: add Laravel 13 compatibility by @vanneszias in https://github.com/statikbe/laravel-security-txt/pull/5
+* chore(deps): bump ramsey/composer-install from 3 to 4 by @dependabot[bot] in https://github.com/statikbe/laravel-security-txt/pull/3
+* chore(deps): bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 by @dependabot[bot] in https://github.com/statikbe/laravel-security-txt/pull/4
+
+### New Contributors
+
+* @vanneszias made their first contribution in https://github.com/statikbe/laravel-security-txt/pull/5
+
+**Full Changelog**: https://github.com/statikbe/laravel-security-txt/compare/v1.0.1...v1.1.0
+
 ## v1.0.1 - 2026-01-26
 
 ### What's Changed
@@ -37,6 +51,7 @@ A Laravel package to manage [security.txt](https://securitytxt.org/) files with 
 php artisan security-txt:update
 php artisan security-txt:update --expires-days=30
 
+
 ```
 ### Configuration
 
@@ -47,6 +62,7 @@ php artisan security-txt:update --expires-days=30
 'output_path' => storage_path('security.txt'),
 'placeholders' => [],
 'middleware' => ['web'],
+
 
 ```
 ### Requirements
@@ -59,5 +75,6 @@ php artisan security-txt:update --expires-days=30
 ```bash
 composer require statikbe/laravel-security-txt
 php artisan vendor:publish --tag="security-txt-config"
+
 
 ```
